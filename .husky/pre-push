@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# Run the build command
+echo "Running build..."
+npm run build
+BUILD_RESULT=$?
+
+# If the build fails, prevent the push
+if [ $BUILD_RESULT -ne 0 ]; then
+    echo "Build failed. Push aborted."
+    exit 1
+fi
+
+echo "Build succeeded. Proceeding with push."
+exit 0
