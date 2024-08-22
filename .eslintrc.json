@@ -1,10 +1,6 @@
 {
   "plugins": ["@stylistic"],
-  "extends": [
-    "next",
-    "next/core-web-vitals",
-    "eslint:recommended"
-  ],
+  "extends": ["next", "next/core-web-vitals", "eslint:recommended"],
   "globals": {
     "React": "readonly"
   },
@@ -30,9 +26,6 @@
         }
       }
     ],
-    "@stylistic/comma-dangle": [
-      "error",
-      "only-multiline"
-    ]
+    "@stylistic/comma-dangle": ["error", "only-multiline"]
   }
 }
