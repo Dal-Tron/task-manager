@@ -1,13 +1,14 @@
 'use client';
 
+import { Bars3Icon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
 
+import { ButtonIcon } from '@/components/base/button-icon';
 import { Announcement } from '@/components/feature/announcement';
 import { BackgroundShapes } from '@/components/feature/background-shapes';
 import { HeroSection } from '@/components/feature/hero-section';
 import { Logo } from '@/components/feature/logo';
 import { MobileMenu } from '@/components/feature/mobile-menu';
-import { MobileMenuButton } from '@/components/feature/mobile-menu/components/MenuButton';
 import { NavigationLinks } from '@/components/feature/navigation-links';
 
 const navigation = [
@@ -34,7 +35,11 @@ export default function Example() {
             <NavigationLinks navigation={navigation} />
           </div>
           <div className="flex lg:flex-1 lg:justify-end">
-            <MobileMenuButton onClick={() => setMobileMenuOpen(true)} />
+            <ButtonIcon
+              srText="Open mobile menu"
+              icon={Bars3Icon}
+              onClick={() => setMobileMenuOpen(true)}
+            />
             <a
               href="#"
               className="hidden lg:inline-block text-sm font-semibold leading-6 text-gray-900 ml-6"
