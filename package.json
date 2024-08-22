@@ -18,6 +18,8 @@
     "gc": "node src/scripts/git-commit.mjs"
   },
   "dependencies": {
+    "@headlessui/react": "^2.1.2",
+    "@heroicons/react": "^2.1.5",
     "next": "14.2.6",
     "react": "^18",
     "react-dom": "^18"
