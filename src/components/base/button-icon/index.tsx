@@ -1,20 +1,25 @@
-import React from 'react';
+import clsx from 'clsx';
 
 interface ButtonIconProps {
-  onClick: () => void;
+  className: string;
   icon: React.ElementType;
+  onClick: () => void;
   srText: string;
 }
 
 export const ButtonIcon: React.FC<ButtonIconProps> = ({
-  onClick,
+  className,
   icon: Icon,
+  onClick,
   srText,
 }) => (
   <button
     type="button"
     onClick={onClick}
-    className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+    className={clsx(
+      '-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700',
+      className
+    )}
   >
     <span className="sr-only">{srText}</span>
     <Icon aria-hidden="true" className="h-6 w-6" />

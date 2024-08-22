@@ -36,6 +36,7 @@ export default function Example() {
           </div>
           <div className="flex lg:flex-1 lg:justify-end">
             <ButtonIcon
+              className="lg:hidden"
               srText="Open mobile menu"
               icon={Bars3Icon}
               onClick={() => setMobileMenuOpen(true)}
