@@ -1,3 +1,4 @@
+import { PlusIcon } from '@heroicons/react/24/outline';
 import React from 'react';
 
 interface TaskCardProps {
@@ -23,8 +24,11 @@ export const TaskCard: React.FC<TaskCardProps> = ({
   return (
     <div
       key={id}
-      className="bg-white p-6 rounded-md shadow-md max-w-xl w-full flex flex-col items-start justify-between"
+      className="relative bg-white p-6 rounded-md shadow-md max-w-xl w-full flex flex-col items-start justify-between"
     >
+      <div className="absolute top-4 right-4 flex items-center justify-center w-10 h-10 bg-blue-100 rounded-full">
+        <PlusIcon className="h-6 w-6 text-blue-500" aria-hidden="true" />
+      </div>
       <div className="flex items-center gap-x-4 text-xs">
         <time dateTime={datetime} className="text-gray-500">
           {date}
