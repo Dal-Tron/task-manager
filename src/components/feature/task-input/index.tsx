@@ -1,4 +1,4 @@
-import { InputField } from '@/components/base/input';
+import { Input } from '@/components/base/input';
 import { ResizableTextarea } from '@/components/base/resize-textarea';
 
 interface TaskInputProps {
@@ -18,7 +18,7 @@ export const TaskInput: React.FC<TaskInputProps> = ({
 }) => {
   return (
     <div className="bg-white p-12 shadow-md max-w-xl w-full text-center rounded-md">
-      <InputField
+      <Input
         value={inputValue}
         onChange={(e) => onInputChange(e.target.value)}
         placeholder="Develop better habits"
