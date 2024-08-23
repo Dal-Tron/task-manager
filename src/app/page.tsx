@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
+import { BannerSection } from '@/components/base/banner';
 import { Announcement } from '@/components/feature/announcement';
 import { ApplicationSection } from '@/components/feature/application-section';
 import { BackgroundShapes } from '@/components/feature/background-shapes';
@@ -54,6 +55,10 @@ export default function Page() {
           <HeroSection />
         </div>
         <div id="application" className="min-h-screen h-auto">
+          <BannerSection
+            title="Get Task Suggestions"
+            subtitle="Expert tips and tools to help you succeed."
+          />
           <ApplicationSection />
         </div>
       </main>
