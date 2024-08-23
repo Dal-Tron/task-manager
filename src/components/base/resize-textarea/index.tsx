@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 interface ResizableTextareaProps {
   value: string;
@@ -7,6 +7,7 @@ interface ResizableTextareaProps {
   placeholder?: string;
   maxLength?: number;
   className?: string;
+  disabled?: boolean;
 }
 
 export const ResizableTextarea: React.FC<ResizableTextareaProps> = ({
@@ -15,11 +16,14 @@ export const ResizableTextarea: React.FC<ResizableTextareaProps> = ({
   placeholder = 'Enter text',
   maxLength = 300,
   className = '',
+  disabled = false,
 }) => {
   const [charCount, setCharCount] = useState(value.length);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    if (disabled) return;
+
     const newValue = e.target.value.slice(0, maxLength);
     onChange(newValue);
     setCharCount(newValue.length);
@@ -30,6 +34,10 @@ export const ResizableTextarea: React.FC<ResizableTextareaProps> = ({
     }
   };
 
+  useEffect(() => {
+    setCharCount(value.length);
+  }, [value]);
+
   return (
     <div className={clsx('w-full', className)}>
       <textarea
@@ -38,7 +46,15 @@ export const ResizableTextarea: React.FC<ResizableTextareaProps> = ({
         onChange={handleInputChange}
         placeholder={placeholder}
         maxLength={maxLength}
-        className="w-full border-b-2 border-gray-300 focus:border-blue-500 focus:outline-none focus:ring-0 bg-transparent resize-none overflow-hidden text-gray-900"
+        disabled={disabled}
+        className={clsx(
+          'w-full border-b-2 focus:outline-none focus:ring-0 bg-transparent resize-none overflow-hidden text-gray-900',
+          {
+            'border-gray-300 focus:border-blue-500 bg-white': !disabled,
+            'border-gray-200 bg-gray-100 text-gray-500 cursor-not-allowed':
+              disabled,
+          }
+        )}
         rows={1}
         style={{ height: 'auto', minHeight: '2.5rem' }}
       />

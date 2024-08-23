@@ -6,6 +6,7 @@ interface InputProps {
   placeholder?: string;
   type?: string;
   className?: string;
+  disabled?: boolean;
 }
 
 export const Input: React.FC<InputProps> = ({
@@ -14,6 +15,7 @@ export const Input: React.FC<InputProps> = ({
   placeholder = 'Enter text',
   type = 'text',
   className = '',
+  disabled = false,
 }) => {
   return (
     <input
@@ -21,8 +23,14 @@ export const Input: React.FC<InputProps> = ({
       value={value}
       onChange={onChange}
       placeholder={placeholder}
+      disabled={disabled}
       className={clsx(
-        'w-full border-b-2 border-gray-300 focus:border-blue-500 focus:outline-none focus:ring-0 text-lg',
+        'w-full border-b-2 text-lg focus:outline-none focus:ring-0',
+        {
+          'border-gray-300 focus:border-blue-500 bg-white': !disabled,
+          'border-gray-200 bg-white !text-gray-700 cursor-not-allowed':
+            disabled,
+        },
         className
       )}
     />
