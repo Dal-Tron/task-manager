@@ -3,7 +3,9 @@
 import { useEffect } from 'react';
 
 import { Announcement } from '@/components/feature/announcement';
+import ApplicationSection from '@/components/feature/application-section';
 import { BackgroundShapes } from '@/components/feature/background-shapes';
+import { Footer } from '@/components/feature/footer';
 import { Header } from '@/components/feature/header';
 import { HeroSection } from '@/components/feature/hero-section';
 
@@ -30,13 +32,16 @@ export default function Page() {
       <Header />
       <BackgroundShapes />
 
-      <main className="px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl pt-24 pb-32 sm:py-48 lg:py-48">
+      <main className="lg:px-8 z-20 relative">
+        <div className="mx-auto max-w-2xl pt-24 pb-32 sm:py-48 lg:py-48 px-6">
           <Announcement />
           <HeroSection />
         </div>
-        <div id="application" className="h-screen"></div>
+        <div id="application" className="min-h-screen h-auto">
+          <ApplicationSection />
+        </div>
       </main>
+      <Footer />
     </div>
   );
 }
