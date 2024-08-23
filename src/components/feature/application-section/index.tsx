@@ -37,7 +37,7 @@ const tasks = [
   },
 ];
 
-export default function ApplicationSection() {
+export const ApplicationSection = () => {
   const [inputValue, setInputValue] = useState('');
   const [descriptionValue, setDescriptionValue] = useState('');
 
@@ -75,4 +75,4 @@ export default function ApplicationSection() {
       </div>
     </div>
   );
-}
+};
