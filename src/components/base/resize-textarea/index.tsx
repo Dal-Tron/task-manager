@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 interface ResizableTextareaProps {
   value: string;
@@ -21,22 +21,19 @@ export const ResizableTextarea: React.FC<ResizableTextareaProps> = ({
   const [charCount, setCharCount] = useState(value.length);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    if (disabled) return;
-
-    const newValue = e.target.value.slice(0, maxLength);
-    onChange(newValue);
-    setCharCount(newValue.length);
-
+  useEffect(() => {
+    setCharCount(value.length);
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';
       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
     }
-  };
-
-  useEffect(() => {
-    setCharCount(value.length);
   }, [value]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const newValue = e.target.value.slice(0, maxLength);
+    onChange(newValue);
+    setCharCount(newValue.length);
+  };
 
   return (
     <div className={clsx('w-full', className)}>
@@ -47,14 +44,7 @@ export const ResizableTextarea: React.FC<ResizableTextareaProps> = ({
         placeholder={placeholder}
         maxLength={maxLength}
         disabled={disabled}
-        className={clsx(
-          'w-full border-b-2 focus:outline-none focus:ring-0 bg-transparent resize-none overflow-hidden text-gray-900',
-          {
-            'border-gray-300 focus:border-blue-500 bg-white': !disabled,
-            'border-gray-200 bg-gray-100 text-gray-500 cursor-not-allowed':
-              disabled,
-          }
-        )}
+        className="w-full border-b-2 focus:outline-none focus:ring-0 bg-transparent resize-none overflow-hidden text-gray-900"
         rows={1}
         style={{ height: 'auto', minHeight: '2.5rem' }}
       />
