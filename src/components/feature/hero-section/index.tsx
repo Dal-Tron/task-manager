@@ -1,6 +1,6 @@
 export const HeroSection = () => (
   <div className="text-center">
-    <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+    <h1 className="text-4xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-green-500 to-indigo-400 sm:text-6xl">
       AI-Powered
     </h1>
     <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-6xl">
