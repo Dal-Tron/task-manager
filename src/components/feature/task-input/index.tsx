@@ -22,7 +22,7 @@ export const TaskInput: React.FC<TaskInputProps> = ({
         value={inputValue}
         onChange={(e) => onInputChange(e.target.value)}
         placeholder="Develop better habits"
-        className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl w-full mb-4"
+        className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl w-full mb-4 !-pl-5"
       />
       <ResizableTextarea
         value={descriptionValue}
