@@ -1,15 +1,20 @@
 'use client';
 
-import { useEffect } from 'react';
+import clsx from 'clsx';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 import { Announcement } from '@/components/feature/announcement';
-import ApplicationSection from '@/components/feature/application-section';
+import { ApplicationSection } from '@/components/feature/application-section';
 import { BackgroundShapes } from '@/components/feature/background-shapes';
 import { Footer } from '@/components/feature/footer';
 import { Header } from '@/components/feature/header';
 import { HeroSection } from '@/components/feature/hero-section';
 
 export default function Page() {
+  const router = useRouter();
+  const [isAnimating, setIsAnimating] = useState(false);
+
   useEffect(() => {
     const handleScroll = () => {
       if (
@@ -27,12 +32,23 @@ export default function Page() {
     };
   }, []);
 
+  const handleAnimate = () => {
+    setIsAnimating(true);
+    setTimeout(() => {
+      router.replace('/sign-in');
+    }, 500);
+  };
+
   return (
     <div className="bg-white">
-      <Header />
+      <Header onSignIn={handleAnimate} />
       <BackgroundShapes />
 
-      <main className="lg:px-8 z-20 relative">
+      <main
+        className={clsx('lg:px-8 z-20 relative', {
+          'animate-slideOutLeft': isAnimating,
+        })}
+      >
         <div className="mx-auto max-w-2xl pt-24 pb-32 sm:py-48 lg:py-48 px-6">
           <Announcement />
           <HeroSection />
