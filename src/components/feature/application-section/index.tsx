@@ -1,76 +1,113 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
+import { HorizontalLine } from '@/components/base/horizontal-line';
+import { SkeletonTaskCard } from '@/components/base/skeleton/SkeletonTaskCard';
+import { CreateSubtaskCard } from '@/components/feature/create-subtask';
 import { TaskCard } from '@/components/feature/task-card';
 import { TaskInput } from '@/components/feature/task-input';
 
-import { CreateSubtaskCard } from '../create-subtask';
-
-const tasks = [
-  {
-    id: 1,
-    title: 'Finish the project report',
-    description:
-      'Complete the final draft of the project report and submit it by end of the day.',
-    date: 'Aug 22, 2024',
-    datetime: '2024-08-22',
-    category: { title: 'Work', href: '#' },
-  },
-  {
-    id: 2,
-    title: 'Plan team meeting',
-    description:
-      'Prepare the agenda and send out invites for the team meeting next week.',
-    date: 'Aug 20, 2024',
-    datetime: '2024-08-20',
-    category: { title: 'Meetings', href: '#' },
-  },
-  {
-    id: 3,
-    title: 'Update project timeline',
-    description:
-      'Review the project timeline and update the tasks based on the current progress.',
-    date: 'Aug 18, 2024',
-    datetime: '2024-08-18',
-    category: { title: 'Project', href: '#' },
-  },
-];
+import { mockTasks } from './constants/mockTasks';
 
 export const ApplicationSection = () => {
   const [inputValue, setInputValue] = useState('');
   const [descriptionValue, setDescriptionValue] = useState('');
+  const [showRealTasks, setShowRealTasks] = useState(false);
+  const [triggerTyping, setTriggerTyping] = useState(false);
 
-  const handleCreateClick = () => {
-    console.log('Create clicked with input:', inputValue);
+  const resetTyping = () => {
+    setInputValue('');
+    setDescriptionValue('');
+    setTriggerTyping(true);
   };
 
+  useEffect(() => {
+    if (triggerTyping || !showRealTasks) {
+      const typeText = (
+        text: string,
+        setValue: (val: string) => void,
+        callback?: () => void
+      ) => {
+        let typingIndex = 0;
+        const typingSpeed = 100;
+
+        const type = () => {
+          if (typingIndex < text.length) {
+            setValue(text.slice(0, typingIndex + 1));
+            typingIndex++;
+            setTimeout(type, typingSpeed);
+          } else if (callback) {
+            callback();
+          }
+        };
+        type();
+      };
+
+      const startTyping = () => {
+        typeText('Finish the project report', setInputValue, () => {
+          typeText(
+            'Complete the final draft of the intro report and submit it.',
+            setDescriptionValue,
+            () => {
+              setShowRealTasks(true);
+            }
+          );
+        });
+      };
+
+      startTyping();
+      setTriggerTyping(false);
+    }
+  }, [triggerTyping, showRealTasks]);
+
+  useEffect(() => {
+    if (showRealTasks) {
+      setTimeout(() => {
+        setShowRealTasks(false);
+        resetTyping();
+      }, 5000);
+    }
+  }, [showRealTasks]);
+
   return (
-    <div className="py-24 sm:py-32">
+    <div className="py-14 sm:py-20">
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col items-center justify-center w-full">
+        <div className="flex flex-col items-center justify-center w-full mb-8">
           <TaskInput
             inputValue={inputValue}
             descriptionValue={descriptionValue}
             onInputChange={setInputValue}
             onDescriptionChange={setDescriptionValue}
-            onSaveTask={handleCreateClick}
+            onSaveTask={() => {}}
           />
         </div>
 
-        <div className="mx-auto mt-16 grid w-full max-w-full grid-cols-1 gap-x-4 gap-y-8 border-t border-gray-200 pt-10 sm:px-6 md:grid-cols-2 lg:grid-cols-3 lg:px-0">
+        <HorizontalLine text="Unlock AI-Powered Tasks" pulse={true} />
+
+        <div className="mx-auto mt-8 grid w-full max-w-full grid-cols-1 gap-x-4 gap-y-8 sm:px-6 md:grid-cols-2 lg:grid-cols-3 lg:px-0">
           <CreateSubtaskCard />
-          {tasks.map((task) => (
-            <TaskCard
-              key={task.id}
-              id={task.id}
-              title={task.title}
-              description={task.description}
-              date={task.date}
-              datetime={task.datetime}
-              category={task.category}
-            />
-          ))}
+          {!showRealTasks ? (
+            <>
+              <SkeletonTaskCard />
+              <SkeletonTaskCard />
+              <SkeletonTaskCard />
+              <SkeletonTaskCard />
+              <SkeletonTaskCard />
+            </>
+          ) : (
+            mockTasks.map((task) => (
+              <TaskCard
+                key={task.id}
+                id={task.id}
+                title={task.title}
+                description={task.description}
+                date={task.date}
+                datetime={task.datetime}
+                category={task.category}
+              />
+            ))
+          )}
         </div>
       </div>
     </div>
