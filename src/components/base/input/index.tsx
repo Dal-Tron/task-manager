@@ -22,7 +22,7 @@ export const Input: React.FC<InputProps> = ({
       onChange={onChange}
       placeholder={placeholder}
       className={clsx(
-        'w-full border-b-2 border-gray-300 focus:border-blue-500 focus:outline-none focus:ring-0 py-3 px-5 text-lg',
+        'w-full border-b-2 border-gray-300 focus:border-blue-500 focus:outline-none focus:ring-0 text-lg',
         className
       )}
     />
