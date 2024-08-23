@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 
-interface InputFieldProps {
+interface InputProps {
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
@@ -8,7 +8,7 @@ interface InputFieldProps {
   className?: string;
 }
 
-export const InputField: React.FC<InputFieldProps> = ({
+export const Input: React.FC<InputProps> = ({
   value,
   onChange,
   placeholder = 'Enter text',
@@ -22,7 +22,7 @@ export const InputField: React.FC<InputFieldProps> = ({
       onChange={onChange}
       placeholder={placeholder}
       className={clsx(
-        'border-b-2 border-gray-300 focus:border-blue-500 focus:outline-none focus:ring-0',
+        'w-full border-b-2 border-gray-300 focus:border-blue-500 focus:outline-none focus:ring-0 py-3 px-5 text-lg',
         className
       )}
     />
