@@ -1,18 +1,35 @@
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { FaFacebook, FaGoogle, FaTwitter } from 'react-icons/fa';
 
 import { Button } from '@/components/base/button';
 import { ButtonIcon } from '@/components/base/button-icon';
 import { Input } from '@/components/base/input';
+import AuthService from '@/services/auth';
 
 export const SignIn: React.FC = () => {
+  const router = useRouter();
+
   const [isRegister, setIsRegister] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSignInOrRegister = () => {
-    const action = isRegister ? 'Register' : 'Sign in';
-    console.log(`${action} clicked:`, { email, password });
+  const handleSignInOrRegister = async () => {
+    let user;
+
+    try {
+      if (isRegister) {
+        user = await AuthService.signUp(email, password);
+      } else {
+        user = await AuthService.signIn(email, password);
+      }
+
+      if (user) {
+        router.push('/dashboard');
+      }
+    } catch (error) {
+      console.error('Authentication error:', error);
+    }
   };
 
   const toggleForm = () => {
