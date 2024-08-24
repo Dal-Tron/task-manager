@@ -1,10 +1,13 @@
+import { DashboardContent } from '@/components/feature/dashboard-content';
 import { DashboardHeader } from '@/components/feature/dashboard-header';
+import { Footer } from '@/components/feature/footer';
 
 export default function DashboardPage() {
   return (
-    <div>
+    <div className="bg-white">
       <DashboardHeader />
-      <div>Dashboard Content</div>
+      <DashboardContent />
+      <Footer />
     </div>
   );
 }
