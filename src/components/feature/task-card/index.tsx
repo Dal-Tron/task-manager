@@ -1,4 +1,5 @@
 import { PlusIcon } from '@heroicons/react/24/outline';
+import clsx from 'clsx';
 import React from 'react';
 
 interface TaskCardProps {
@@ -11,6 +12,7 @@ interface TaskCardProps {
     title: string;
     href: string;
   };
+  className?: string;
 }
 
 export const TaskCard: React.FC<TaskCardProps> = ({
@@ -20,11 +22,15 @@ export const TaskCard: React.FC<TaskCardProps> = ({
   date,
   datetime,
   category,
+  className,
 }) => {
   return (
     <div
       key={id}
-      className="relative bg-white p-6 rounded-md shadow-md max-w-xl w-full flex flex-col items-start justify-between"
+      className={clsx(
+        'relative bg-white p-6 rounded-md shadow-md max-w-xl w-full flex flex-col items-start justify-between',
+        className
+      )}
     >
       <div className="absolute top-4 right-4 flex items-center justify-center w-10 h-10 bg-blue-100 rounded-full">
         <PlusIcon className="h-6 w-6 text-blue-500" aria-hidden="true" />
