@@ -7,8 +7,7 @@ import { SkeletonTaskCard } from '@/components/base/skeleton/SkeletonTaskCard';
 import { CreateSubtaskCard } from '@/components/feature/create-subtask';
 import { TaskCard } from '@/components/feature/task-card';
 import { TaskInput } from '@/components/feature/task-input';
-
-import { mockTasks } from './constants/mockTasks';
+import { mockTasks } from '@/constants/mockTasks';
 
 export const ApplicationSection = () => {
   const [inputValue, setInputValue] = useState('');
@@ -70,6 +69,8 @@ export const ApplicationSection = () => {
     }
   }, [showRealTasks]);
 
+  const displayedTasks = mockTasks.slice(0, 5);
+
   return (
     <div className="py-14 sm:py-20">
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -96,7 +97,7 @@ export const ApplicationSection = () => {
               <SkeletonTaskCard />
             </>
           ) : (
-            mockTasks.map((task) => (
+            displayedTasks.map((task) => (
               <TaskCard
                 key={task.id}
                 id={task.id}
@@ -105,6 +106,7 @@ export const ApplicationSection = () => {
                 date={task.date}
                 datetime={task.datetime}
                 category={task.category}
+                className="min-h-[12rem]"
               />
             ))
           )}
