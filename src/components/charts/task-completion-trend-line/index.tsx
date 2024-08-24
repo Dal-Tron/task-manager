@@ -10,7 +10,7 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 
-import { mockTasks } from '@/constants/mockTasks';
+import { mockTasks } from '@/mocks/mockTasks';
 
 ChartJS.register(
   CategoryScale,
@@ -23,14 +23,15 @@ ChartJS.register(
 );
 
 export const TaskCompletionTrend = () => {
-  // Group tasks by date and calculate average completion
+  // Group tasks by start_date and calculate average completion
   const taskCompletionByDate = mockTasks.reduce(
     (acc, task) => {
-      if (!acc[task.date]) {
-        acc[task.date] = { totalCompletion: 0, taskCount: 0 };
+      const startDate = task.start_date.split('T')[0]; // Extract date part only
+      if (!acc[startDate]) {
+        acc[startDate] = { totalCompletion: 0, taskCount: 0 };
       }
-      acc[task.date].totalCompletion += task.completion;
-      acc[task.date].taskCount += 1;
+      acc[startDate].totalCompletion += task.completion;
+      acc[startDate].taskCount += 1;
       return acc;
     },
     {} as Record<string, { totalCompletion: number; taskCount: number }>
