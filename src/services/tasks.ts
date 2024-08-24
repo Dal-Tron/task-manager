@@ -11,9 +11,9 @@ interface Task {
 }
 
 class TaskService {
-  private supabase = createClient();
+  private static supabase = createClient();
 
-  async createTask(
+  static async createTask(
     task: Omit<Task, 'id' | 'updated_at'>
   ): Promise<Task | null> {
     try {
@@ -35,7 +35,7 @@ class TaskService {
     }
   }
 
-  async getTasks(): Promise<Task[] | null> {
+  static async getTasks(): Promise<Task[] | null> {
     try {
       const { data, error } = await this.supabase
         .from('tasks')
@@ -50,7 +50,7 @@ class TaskService {
     }
   }
 
-  async updateTask(
+  static async updateTask(
     taskId: number,
     updates: Partial<Omit<Task, 'id'>>
   ): Promise<Task | null> {
@@ -73,7 +73,7 @@ class TaskService {
     }
   }
 
-  async deleteTask(taskId: number): Promise<boolean> {
+  static async deleteTask(taskId: number): Promise<boolean> {
     try {
       const { error } = await this.supabase
         .from('tasks')
