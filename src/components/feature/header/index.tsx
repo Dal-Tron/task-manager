@@ -11,9 +11,9 @@ import { MobileMenu } from '@/components/feature/mobile-menu';
 import { NavigationLinks } from '@/components/feature/navigation-links';
 
 const navigation = [
-  { name: 'Application', href: '#application' },
-  { name: 'Metrics', href: '#metrics' },
-  { name: 'Notifications', href: '#' },
+  { name: 'Generation', href: '#application' },
+  { name: 'Analysis', href: '#metrics' },
+  { name: 'Tracking', href: '#' },
   { name: 'Pricing', href: '#' },
 ];
 
