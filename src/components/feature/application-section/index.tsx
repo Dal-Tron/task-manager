@@ -80,8 +80,9 @@ export const ApplicationSection = () => {
             inputValue={inputValue}
             descriptionValue={descriptionValue}
             onInputChange={setInputValue}
-            onDescriptionChange={setDescriptionValue}
+            onDescriptionChange={(e) => setDescriptionValue(e.target.value)}
             onSaveTask={() => {}}
+            disabled={true}
           />
         </div>
 
