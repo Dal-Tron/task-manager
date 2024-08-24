@@ -51,7 +51,7 @@ export default function Page() {
           'animate-slideOutLeft': isAnimating,
         })}
       >
-        <div className="mx-auto max-w-2xl pt-24 pb-32 sm:py-48 lg:py-48 px-6">
+        <div className="mx-auto max-w-2xl pt-14 pb-32 sm:py-48 lg:py-40 px-6">
           <Announcement />
           <HeroSection />
         </div>
