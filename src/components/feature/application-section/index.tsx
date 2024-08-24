@@ -8,7 +8,7 @@ import { SkeletonTaskCard } from '@/components/base/skeleton/SkeletonTaskCard';
 import { CreateSubtaskCard } from '@/components/feature/create-subtask';
 import { TaskCard } from '@/components/feature/task-card';
 import { TaskInput } from '@/components/feature/task-input';
-import { mockTasks } from '@/constants/mockTasks';
+import { mockTasks } from '@/mocks/mockTasks';
 
 export const ApplicationSection = () => {
   const [inputValue, setInputValue] = useState('');
@@ -104,12 +104,14 @@ export const ApplicationSection = () => {
                 id={task.id}
                 title={task.title}
                 description={task.description}
-                date={task.date}
-                datetime={task.datetime}
-                category={task.category}
+                start_date={task.start_date}
+                due_date={task.due_date}
+                updated_at={task.updated_at}
+                completion={task.completion}
                 className={clsx('min-h-[12rem]', {
                   'hidden sm:block': index >= 2,
                 })}
+                demo={true}
               />
             ))
           )}
