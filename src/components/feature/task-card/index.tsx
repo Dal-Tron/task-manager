@@ -5,12 +5,12 @@ interface TaskCardProps {
   id: number;
   title: string;
   description: string;
-  start_date: string;
-  due_date: string;
-  updated_at: string;
-  completion: number;
-  demo?: boolean;
+  start_date?: string;
+  due_date?: string;
+  updated_at?: string;
+  completion?: number;
   className?: string;
+  demo?: boolean;
 }
 
 export const TaskCard: React.FC<TaskCardProps> = ({
@@ -43,10 +43,11 @@ export const TaskCard: React.FC<TaskCardProps> = ({
       <div className="w-full">
         <div className="flex items-center space-x-2 text-xs text-gray-500 mb-3">
           <time dateTime={start_date}>
-            Start: {new Date(start_date).toLocaleDateString()}
+            Start:{' '}
+            {start_date ? new Date(start_date).toLocaleDateString() : 'N/A'}
           </time>
           <time dateTime={due_date}>
-            Due: {new Date(due_date).toLocaleDateString()}
+            Due: {due_date ? new Date(due_date).toLocaleDateString() : 'N/A'}
           </time>
         </div>
 
@@ -63,7 +64,10 @@ export const TaskCard: React.FC<TaskCardProps> = ({
         </div>
 
         <div className="mt-4 flex items-center justify-between text-sm text-gray-500">
-          <span>Last Updated: {new Date(updated_at).toLocaleDateString()}</span>
+          <span>
+            Last Updated:{' '}
+            {updated_at ? new Date(updated_at).toLocaleDateString() : 'N/A'}
+          </span>
           <span>Completion: {demo ? 0 : completion}%</span>
         </div>
       </div>
