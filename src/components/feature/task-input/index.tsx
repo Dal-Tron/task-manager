@@ -6,8 +6,9 @@ interface TaskInputProps {
   inputValue: string;
   descriptionValue: string;
   onInputChange: (value: string) => void;
-  onDescriptionChange: (value: string) => void;
+  onDescriptionChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   onSaveTask: () => void;
+  disabled?: boolean;
 }
 
 export const TaskInput: React.FC<TaskInputProps> = ({
@@ -16,7 +17,10 @@ export const TaskInput: React.FC<TaskInputProps> = ({
   onInputChange,
   onDescriptionChange,
   onSaveTask,
+  disabled = false,
 }) => {
+  const isSaveDisabled = disabled || inputValue.length < 3;
+
   return (
     <div className="bg-white p-12 shadow-md max-w-xl w-full text-center rounded-md">
       <Input
@@ -24,19 +28,19 @@ export const TaskInput: React.FC<TaskInputProps> = ({
         onChange={(e) => onInputChange(e.target.value)}
         placeholder="Develop better habits"
         className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl w-full mb-4 !-pl-5"
-        disabled={true}
+        disabled={disabled}
       />
       <ResizableTextarea
         value={descriptionValue}
         onChange={onDescriptionChange}
         placeholder="Establish a routine for daily exercises"
         className="mt-2 text-lg leading-8 text-gray-600 w-full"
-        disabled={true}
+        disabled={disabled}
       />
       <Button
         onClick={onSaveTask}
         className="mt-6 bg-blue-500 text-white font-semibold py-2 px-4 rounded-md"
-        disabled={true}
+        disabled={isSaveDisabled}
         text="Save Task"
       />
     </div>
