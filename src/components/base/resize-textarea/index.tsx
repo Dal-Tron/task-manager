@@ -1,16 +1,16 @@
 import clsx from 'clsx';
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, FC } from 'react';
 
 interface ResizableTextareaProps {
   value: string;
-  onChange: (value: string) => void;
+  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   placeholder?: string;
   maxLength?: number;
   className?: string;
   disabled?: boolean;
 }
 
-export const ResizableTextarea: React.FC<ResizableTextareaProps> = ({
+export const ResizableTextarea: FC<ResizableTextareaProps> = ({
   value,
   onChange,
   placeholder = 'Enter text',
@@ -31,7 +31,7 @@ export const ResizableTextarea: React.FC<ResizableTextareaProps> = ({
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newValue = e.target.value.slice(0, maxLength);
-    onChange(newValue);
+    onChange(e);
     setCharCount(newValue.length);
   };
 
