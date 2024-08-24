@@ -1,5 +1,6 @@
 'use client';
 
+import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 
 import { HorizontalLine } from '@/components/base/horizontal-line';
@@ -72,7 +73,7 @@ export const ApplicationSection = () => {
   const displayedTasks = mockTasks.slice(0, 5);
 
   return (
-    <div className="py-14 sm:py-20">
+    <div className="pb-14 sm:py-20">
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center justify-center w-full mb-8">
           <TaskInput
@@ -92,12 +93,12 @@ export const ApplicationSection = () => {
             <>
               <SkeletonTaskCard />
               <SkeletonTaskCard />
-              <SkeletonTaskCard />
-              <SkeletonTaskCard />
-              <SkeletonTaskCard />
+              <SkeletonTaskCard className="hidden sm:flex" />
+              <SkeletonTaskCard className="hidden sm:flex" />
+              <SkeletonTaskCard className="hidden sm:flex" />
             </>
           ) : (
-            displayedTasks.map((task) => (
+            displayedTasks.map((task, index) => (
               <TaskCard
                 key={task.id}
                 id={task.id}
@@ -106,7 +107,9 @@ export const ApplicationSection = () => {
                 date={task.date}
                 datetime={task.datetime}
                 category={task.category}
-                className="min-h-[12rem]"
+                className={clsx('min-h-[12rem]', {
+                  'hidden sm:block': index >= 2,
+                })}
               />
             ))
           )}
