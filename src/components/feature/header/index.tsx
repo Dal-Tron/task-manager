@@ -12,9 +12,9 @@ import { NavigationLinks } from '@/components/feature/navigation-links';
 
 const navigation = [
   { name: 'Application', href: '#application' },
-  { name: 'Features', href: '#' },
-  { name: 'Marketplace', href: '#' },
-  { name: 'Company', href: '#' },
+  { name: 'Metrics', href: '#metrics' },
+  { name: 'Notifications', href: '#' },
+  { name: 'Pricing', href: '#' },
 ];
 
 export const Header: React.FC<{ onSignIn?: () => void }> = ({ onSignIn }) => {
