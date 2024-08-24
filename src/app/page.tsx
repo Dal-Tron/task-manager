@@ -11,6 +11,7 @@ import { BackgroundShapes } from '@/components/feature/background-shapes';
 import { Footer } from '@/components/feature/footer';
 import { Header } from '@/components/feature/header';
 import { HeroSection } from '@/components/feature/hero-section';
+import { MetricsSection } from '@/components/feature/metrics-section';
 
 export default function Page() {
   const router = useRouter();
@@ -60,6 +61,18 @@ export default function Page() {
             subtitle="Expert tips and tools to help you succeed."
           />
           <ApplicationSection />
+        </div>
+        <div id="metrics" className="min-h-screen h-auto">
+          <BannerSection
+            title="Analyze Your Task Completion"
+            subtitle="Gain insights with top-tier metrics on how your tasks are completed."
+            backgroundStyle={{
+              backgroundImage: `linear-gradient(20deg, rgba(67, 97, 238, 0.05) 0%, rgba(67, 97, 238, 0.1) 100%)`,
+              backgroundSize: '150% 150%',
+            }}
+          />
+
+          <MetricsSection />
         </div>
       </main>
       <Footer />
