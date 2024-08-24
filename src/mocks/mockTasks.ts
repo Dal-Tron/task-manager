@@ -1,4 +1,4 @@
-class MockTask {
+export class MockTask {
   id: number;
   title: string;
   description: string;
