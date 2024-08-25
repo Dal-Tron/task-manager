@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 import { HorizontalLine } from '@/components/base/horizontal-line';
 import { TaskInput } from '@/components/feature/task-input';
-import TaskService from '@/services/tasks';
+import { TaskService } from '@/services/tasks';
 import { ITask } from '@/types/task';
 
 import { TaskList } from './components/TaskList';

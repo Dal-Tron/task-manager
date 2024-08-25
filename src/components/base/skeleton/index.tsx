@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import { FaSpinner } from 'react-icons/fa';
 
 interface SkeletonTaskCardProps {
   className?: string;
@@ -19,7 +20,7 @@ export const SkeletonTaskCard: React.FC<SkeletonTaskCardProps> = ({
     )}
   >
     {variant === 'skeleton' && (
-      <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-gray-500" />
+      <FaSpinner className="animate-spin h-10 w-10 text-gray-500" />
     )}
   </div>
 );

@@ -1,6 +1,6 @@
 'use client';
 
-import { SkeletonTaskCard } from '@/components/base/skeleton/SkeletonTaskCard';
+import { SkeletonTaskCard } from '@/components/base/skeleton';
 import { TaskCard } from '@/components/feature/task-card';
 import { ITask } from '@/types/task';
 
