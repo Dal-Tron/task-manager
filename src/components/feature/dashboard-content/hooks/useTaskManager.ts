@@ -31,11 +31,19 @@ export function useTaskManager(initialTask?: ITask | null) {
 
   const handleSaveTask = async () => {
     if (initialTask && initialTask.id) {
-      // Update the existing task
-      await TaskService.updateTask(initialTask.id, {
+      // Update existing task
+      const updatedTask = await TaskService.updateTask(initialTask.id, {
         title: inputValue,
         description: descriptionValue,
       });
+
+      if (updatedTask) {
+        setTasks((prevTasks) =>
+          prevTasks.map((task) =>
+            task.id === updatedTask.id ? updatedTask : task
+          )
+        );
+      }
     } else {
       // Create a new task
       const newTask = await TaskService.createTask({
