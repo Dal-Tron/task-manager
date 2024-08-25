@@ -1,6 +1,5 @@
 import { TrashIcon, PlusIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { Dialog } from '@/components/base/dialog';
@@ -16,6 +15,8 @@ interface TaskCardProps {
   className?: string;
   demo?: boolean;
   onDelete?: (id: number) => void;
+  onClick?: () => void;
+  hideActions?: boolean;
 }
 
 export const TaskCard: React.FC<TaskCardProps> = ({
@@ -29,23 +30,19 @@ export const TaskCard: React.FC<TaskCardProps> = ({
   demo = false,
   className,
   onDelete,
+  onClick,
+  hideActions = false,
 }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const router = useRouter();
 
-  const handleDeleteClick = () => {
+  const handleDeleteClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
     setIsDialogOpen(true);
   };
 
   const handleConfirmDelete = () => {
-    if (onDelete) {
-      onDelete(id);
-    }
+    onDelete?.(id);
     setIsDialogOpen(false);
-  };
-
-  const handleCardClick = () => {
-    router.push(`/dashboard/${id}`);
   };
 
   return (
@@ -56,7 +53,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({
           'relative bg-white p-6 rounded-md shadow-md max-w-xl w-full flex flex-col items-start justify-between cursor-pointer border border-transparent hover:border-blue-500 transition-colors duration-200',
           className
         )}
-        onClick={handleCardClick}
+        onClick={onClick}
       >
         {demo && (
           <div className="absolute top-4 right-4">
@@ -79,37 +76,36 @@ export const TaskCard: React.FC<TaskCardProps> = ({
 
           <div className="group relative">
             <h3 className="text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
-              <a href="#">
-                <span className="absolute inset-0" />
-                {title}
-              </a>
+              {title}
             </h3>
             <p className="mt-2 line-clamp-3 text-sm leading-6 text-gray-600">
               {description}
             </p>
           </div>
 
-          <div className="mt-4 flex items-center justify-between text-sm text-gray-500">
-            <span>
-              Last Updated:{' '}
-              {updated_at ? new Date(updated_at).toLocaleDateString() : 'N/A'}
-            </span>
-            <span>Completion: {demo ? 0 : completion}%</span>
-          </div>
-        </div>
+          {!hideActions && (
+            <div className="mt-4 flex items-center justify-between text-sm text-gray-500">
+              <span>
+                Last Updated:{' '}
+                {updated_at ? new Date(updated_at).toLocaleDateString() : 'N/A'}
+              </span>
+              <span>Completion: {completion}%</span>
+            </div>
+          )}
 
-        {!demo && (
-          <div
-            className="mt-4 flex justify-end w-full"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <TrashIcon
-              className="h-5 w-5 text-gray-400 cursor-pointer hover:text-red-500"
-              aria-hidden="true"
-              onClick={handleDeleteClick}
-            />
-          </div>
-        )}
+          {!demo && !hideActions && (
+            <div
+              className="mt-4 flex justify-end w-full"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <TrashIcon
+                className="h-5 w-5 text-gray-400 cursor-pointer hover:text-red-500"
+                aria-hidden="true"
+                onClick={handleDeleteClick}
+              />
+            </div>
+          )}
+        </div>
       </div>
 
       <Dialog
