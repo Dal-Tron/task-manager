@@ -1,21 +1,12 @@
+import { ITask } from '@/types/task';
 import { createClient } from '@/util/supabase/client';
-
-interface Task {
-  id: number;
-  title: string;
-  description: string;
-  start_date: string;
-  due_date: string;
-  completion: number;
-  user_id: string;
-}
 
 class TaskService {
   private static supabase = createClient();
 
   static async createTask(
-    task: Omit<Task, 'id' | 'updated_at' | 'user_id'>
-  ): Promise<Task | null> {
+    task: Omit<ITask, 'id' | 'updated_at' | 'user_id'>
+  ): Promise<ITask | null> {
     try {
       const { data, error } = await this.supabase
         .from('tasks')
@@ -35,7 +26,7 @@ class TaskService {
     }
   }
 
-  static async getTasks(): Promise<Task[] | null> {
+  static async getTasks(): Promise<ITask[] | null> {
     try {
       const { data, error } = await this.supabase
         .from('tasks')
@@ -50,10 +41,26 @@ class TaskService {
     }
   }
 
+  static async getTaskById(taskId: number): Promise<ITask | null> {
+    try {
+      const { data, error } = await this.supabase
+        .from('tasks')
+        .select('*')
+        .eq('id', taskId)
+        .single();
+
+      if (error) throw error;
+      return data;
+    } catch (error) {
+      console.error('Get Task By ID Error:', error);
+      return null;
+    }
+  }
+
   static async updateTask(
     taskId: number,
-    updates: Partial<Omit<Task, 'id'>>
-  ): Promise<Task | null> {
+    updates: Partial<Omit<ITask, 'id'>>
+  ): Promise<ITask | null> {
     try {
       const { data, error } = await this.supabase
         .from('tasks')
