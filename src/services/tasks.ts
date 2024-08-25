@@ -1,20 +1,20 @@
 import { createClient } from '@/util/supabase/client';
 
 interface Task {
-  id?: number;
+  id: number;
   title: string;
   description: string;
   start_date: string;
   due_date: string;
   completion: number;
-  user_id?: string;
+  user_id: string;
 }
 
 class TaskService {
   private static supabase = createClient();
 
   static async createTask(
-    task: Omit<Task, 'id' | 'updated_at'>
+    task: Omit<Task, 'id' | 'updated_at' | 'user_id'>
   ): Promise<Task | null> {
     try {
       const { data, error } = await this.supabase
