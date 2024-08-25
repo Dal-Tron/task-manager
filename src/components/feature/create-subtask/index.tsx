@@ -7,7 +7,7 @@ export const CreateSubtaskCard: React.FC = () => {
         <PlusIcon className="h-8 w-8 text-blue-500" aria-hidden="true" />
       </div>
       <h3 className="text-lg font-semibold text-gray-900">
-        Create New Subtask
+        Create Custom Subtask
       </h3>
       <p className="mt-2 text-sm leading-6 text-gray-600">
         A new subtask can be added to each main task.
