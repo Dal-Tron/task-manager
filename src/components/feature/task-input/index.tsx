@@ -1,6 +1,10 @@
+import { useState } from 'react';
+
 import { Button } from '@/components/base/button';
 import { Input } from '@/components/base/input';
 import { ResizableTextarea } from '@/components/base/resize-textarea';
+import { TaskSuggestionsModal } from '@/components/feature/task-suggestions-modal';
+import { ITask } from '@/types/task';
 
 interface TaskInputProps {
   inputValue: string;
@@ -10,6 +14,7 @@ interface TaskInputProps {
   onSaveTask: () => void;
   onAddSubtask: () => void;
   disabled?: boolean;
+  isEditing?: boolean;
 }
 
 export const TaskInput: React.FC<TaskInputProps> = ({
@@ -20,8 +25,41 @@ export const TaskInput: React.FC<TaskInputProps> = ({
   onSaveTask,
   onAddSubtask,
   disabled = false,
+  isEditing = false,
 }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [suggestions, setSuggestions] = useState<ITask[]>([]);
+  const [suggestionsLoading, setSuggestionsLoading] = useState(false);
+
   const isSaveDisabled = disabled || inputValue.length < 3;
+
+  const handleSuggestTask = async () => {
+    setIsModalOpen(true);
+    setSuggestionsLoading(true);
+
+    const response = await fetch('/api/generate-subtasks', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        title: inputValue,
+        description: descriptionValue,
+      }),
+    });
+
+    const data = await response.json();
+    setSuggestions(data.subtasks);
+    setSuggestionsLoading(false);
+  };
+
+  const handleSelectTask = (task: ITask) => {
+    onInputChange(task.title);
+    onDescriptionChange({
+      target: { value: task.description },
+    } as React.ChangeEvent<HTMLTextAreaElement>);
+    setIsModalOpen(false);
+  };
 
   return (
     <div className="bg-white p-12 shadow-md max-w-xl w-full text-center rounded-md">
@@ -41,18 +79,26 @@ export const TaskInput: React.FC<TaskInputProps> = ({
       />
       <div className="mt-6 flex justify-end">
         <Button
-          onClick={onAddSubtask}
+          onClick={handleSuggestTask}
           className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-md"
           disabled={isSaveDisabled}
-          text="Add Subtask"
+          text="Suggest Task"
         />
         <Button
           onClick={onSaveTask}
           className="ml-2 bg-green-500 text-white font-semibold py-2 px-4 rounded-md"
           disabled={isSaveDisabled}
-          text="Save Task"
+          text={isEditing ? 'Update Task' : 'Save Task'}
         />
       </div>
+
+      <TaskSuggestionsModal
+        isOpen={isModalOpen}
+        closeModal={() => setIsModalOpen(false)}
+        suggestions={suggestions}
+        onSelectTask={handleSelectTask}
+        loading={suggestionsLoading}
+      />
     </div>
   );
 };
