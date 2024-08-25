@@ -1,5 +1,6 @@
 import { TrashIcon, PlusIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { Dialog } from '@/components/base/dialog';
@@ -30,6 +31,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({
   onDelete,
 }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const router = useRouter();
 
   const handleDeleteClick = () => {
     setIsDialogOpen(true);
@@ -42,14 +44,19 @@ export const TaskCard: React.FC<TaskCardProps> = ({
     setIsDialogOpen(false);
   };
 
+  const handleCardClick = () => {
+    router.push(`/dashboard/${id}`);
+  };
+
   return (
     <>
       <div
         key={id}
         className={clsx(
-          'relative bg-white p-6 rounded-md shadow-md max-w-xl w-full flex flex-col items-start justify-between',
+          'relative bg-white p-6 rounded-md shadow-md max-w-xl w-full flex flex-col items-start justify-between cursor-pointer border border-transparent hover:border-blue-500 transition-colors duration-200',
           className
         )}
+        onClick={handleCardClick}
       >
         {demo && (
           <div className="absolute top-4 right-4">
@@ -91,13 +98,18 @@ export const TaskCard: React.FC<TaskCardProps> = ({
           </div>
         </div>
 
-        <div className="mt-4 flex justify-end w-full">
-          <TrashIcon
-            className="h-5 w-5 text-gray-400 cursor-pointer hover:text-red-500"
-            aria-hidden="true"
-            onClick={handleDeleteClick}
-          />
-        </div>
+        {!demo && (
+          <div
+            className="mt-4 flex justify-end w-full"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <TrashIcon
+              className="h-5 w-5 text-gray-400 cursor-pointer hover:text-red-500"
+              aria-hidden="true"
+              onClick={handleDeleteClick}
+            />
+          </div>
+        )}
       </div>
 
       <Dialog
