@@ -1,45 +1,59 @@
 'use client';
 
-import clsx from 'clsx';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { HorizontalLine } from '@/components/base/horizontal-line';
 import { SkeletonTaskCard } from '@/components/base/skeleton/SkeletonTaskCard';
-import { CreateSubtaskCard } from '@/components/feature/create-subtask';
 import { TaskCard } from '@/components/feature/task-card';
 import { TaskInput } from '@/components/feature/task-input';
-import { useAuth } from '@/context/auth';
 import TaskService from '@/services/tasks';
 
-interface Subtask {
+import { SubtaskSection } from './components/SubtaskSection';
+
+interface Task {
+  id: number;
   title: string;
   description: string;
-  start_date?: string;
-  due_date?: string;
-  updated_at?: string;
-  completion?: number;
+  start_date: string;
+  due_date: string;
+  completion: number;
+  user_id: string;
 }
 
 export const DashboardContent = () => {
   const [inputValue, setInputValue] = useState('');
   const [descriptionValue, setDescriptionValue] = useState('');
-  const [subtasks, setSubtasks] = useState<Subtask[]>([]);
+  const [subtasks, setSubtasks] = useState<Task[]>([]);
   const [loadingSubtasks, setLoadingSubtasks] = useState(false);
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [loadingTasks, setLoadingTasks] = useState(true);
+  const [showSubtasks, setShowSubtasks] = useState(false);
 
   const handleSaveTask = async () => {
+    const task = await TaskService.createTask({
+      title: inputValue,
+      description: descriptionValue,
+      start_date: new Date().toISOString(),
+      due_date: new Date().toISOString(),
+      completion: 0,
+    });
+  };
+
+  const handleDeleteTask = async (id: number) => {
+    const success = await TaskService.deleteTask(id);
+    if (success) {
+      setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
+    } else {
+      console.error('Failed to delete the task');
+    }
+  };
+
+  const handleGetSubtasks = async () => {
+    setShowSubtasks(true);
     setLoadingSubtasks(true);
     setSubtasks([]);
 
     try {
-      const task = await TaskService.createTask({
-        title: inputValue,
-        description: descriptionValue,
-        start_date: new Date().toISOString(),
-        due_date: new Date().toISOString(),
-        completion: 0,
-      });
-
-      // Mock generating subtasks (This is where you would call your API)
       const response = await fetch('/api/generate-subtasks', {
         method: 'POST',
         headers: {
@@ -52,7 +66,6 @@ export const DashboardContent = () => {
       });
 
       const data = await response.json();
-
       setSubtasks(data.subtasks);
     } catch (error) {
       console.error('Error saving task or generating subtasks:', error);
@@ -60,6 +73,17 @@ export const DashboardContent = () => {
       setLoadingSubtasks(false);
     }
   };
+
+  useEffect(() => {
+    const fetchTasks = async () => {
+      setLoadingTasks(true);
+      const fetchedTasks = await TaskService.getTasks();
+      setTasks(fetchedTasks || []);
+      setLoadingTasks(false);
+    };
+
+    fetchTasks();
+  }, []);
 
   return (
     <div className="pb-14 sm:py-20">
@@ -71,38 +95,47 @@ export const DashboardContent = () => {
             onInputChange={setInputValue}
             onDescriptionChange={(e) => setDescriptionValue(e.target.value)}
             onSaveTask={handleSaveTask}
+            onAddSubtask={handleGetSubtasks}
           />
         </div>
 
-        <HorizontalLine text="Subtasks" pulse={true} />
+        {showSubtasks && (
+          <SubtaskSection
+            subtasks={subtasks}
+            loadingSubtasks={loadingSubtasks}
+          />
+        )}
 
-        <div className="mx-auto mt-8 grid w-full max-w-full grid-cols-1 gap-x-4 gap-y-8 sm:px-6 md:grid-cols-2 lg:grid-cols-3 lg:px-0">
-          <CreateSubtaskCard />
-          {loadingSubtasks ? (
-            <>
-              <SkeletonTaskCard />
-              <SkeletonTaskCard />
-              <SkeletonTaskCard />
-              <SkeletonTaskCard />
-              <SkeletonTaskCard />
-            </>
-          ) : (
-            subtasks.map((task, index) => (
-              <TaskCard
-                key={index}
-                id={index + 1}
-                title={task.title}
-                description={task.description}
-                start_date={task.start_date}
-                due_date={task.due_date}
-                updated_at={task.updated_at}
-                completion={task.completion}
-                className={clsx('min-h-[12rem]', {
-                  'hidden sm:block': index >= 2,
-                })}
-              />
-            ))
-          )}
+        <HorizontalLine text="Current Tasks" pulse={false} />
+
+        <div className="mt-8">
+          <div className="mx-auto grid w-full max-w-full grid-cols-1 gap-x-4 gap-y-8 sm:px-6 md:grid-cols-2 lg:grid-cols-3 lg:px-0">
+            {loadingTasks ? (
+              <>
+                <SkeletonTaskCard />
+                <SkeletonTaskCard />
+                <SkeletonTaskCard />
+                <SkeletonTaskCard />
+                <SkeletonTaskCard />
+                <SkeletonTaskCard />
+              </>
+            ) : (
+              tasks.map((task) => (
+                <TaskCard
+                  key={task.id}
+                  id={task.id}
+                  title={task.title}
+                  description={task.description}
+                  start_date={task.start_date}
+                  due_date={task.due_date}
+                  updated_at={new Date().toISOString()}
+                  completion={task.completion}
+                  className="min-h-[12rem]"
+                  onDelete={handleDeleteTask}
+                />
+              ))
+            )}
+          </div>
         </div>
       </div>
     </div>
