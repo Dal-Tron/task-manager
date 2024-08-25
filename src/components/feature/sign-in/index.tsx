@@ -1,6 +1,6 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { FaFacebook, FaGoogle, FaTwitter } from 'react-icons/fa';
+import { FaFacebook, FaGoogle, FaTwitter, FaSpinner } from 'react-icons/fa';
 
 import { Button } from '@/components/base/button';
 import { ButtonIcon } from '@/components/base/button-icon';
@@ -13,11 +13,13 @@ export const SignIn: React.FC = () => {
   const [isRegister, setIsRegister] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSignInOrRegister = async () => {
-    let user;
+    setIsLoading(true);
 
     try {
+      let user;
       if (isRegister) {
         user = await AuthService.signUp(email, password);
       } else {
@@ -29,6 +31,8 @@ export const SignIn: React.FC = () => {
       }
     } catch (error) {
       console.error('Authentication error:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -37,7 +41,13 @@ export const SignIn: React.FC = () => {
   };
 
   return (
-    <div className="flex min-h-full flex-1 flex-col justify-center px-6 lg:px-8">
+    <div className="relative flex min-h-full flex-1 flex-col justify-center px-6 lg:px-8">
+      {isLoading && (
+        <div className="absolute inset-0 bg-white bg-opacity-70 flex items-center justify-center z-10">
+          <FaSpinner className="animate-spin h-12 w-12 text-gray-600" />
+        </div>
+      )}
+
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
           {isRegister ? 'Create an account' : 'Sign in to your account'}
