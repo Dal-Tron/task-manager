@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 
 import { HorizontalLine } from '@/components/base/horizontal-line';
 import { SkeletonTaskCard } from '@/components/base/skeleton';
-import { CreateTaskCard } from '@/components/feature/create-task';
+import { CreateTaskCard } from '@/components/feature/create-task-card';
 import { TaskCard } from '@/components/feature/task-card';
 import { TaskInput } from '@/components/feature/task-input';
 import { mockTasks } from '@/mocks/mockTasks';

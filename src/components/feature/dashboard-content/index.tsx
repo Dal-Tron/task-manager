@@ -4,10 +4,10 @@ import { useEffect, useState } from 'react';
 
 import { HorizontalLine } from '@/components/base/horizontal-line';
 import { TaskInput } from '@/components/feature/task-input';
+import { TaskList } from '@/components/feature/task-list';
 import TaskService from '@/services/tasks';
 import { ITask } from '@/types/task';
 
-import { TaskList } from './components/TaskList';
 import { useTaskManager } from './hooks/useTaskManager';
 
 interface DashboardContentProps {
@@ -53,6 +53,7 @@ export default function DashboardContent({ params }: DashboardContentProps) {
             onDescriptionChange={(e) => setDescriptionValue(e.target.value)}
             onSaveTask={handleSaveTask}
             onAddSubtask={handleGetSubtasks}
+            isEditing={!!params?.task_id}
           />
         </div>
 
@@ -62,6 +63,8 @@ export default function DashboardContent({ params }: DashboardContentProps) {
           tasks={tasks}
           loadingTasks={loadingTasks}
           onDelete={handleDeleteTask}
+          currentTaskId={params?.task_id}
+          isMain={true}
         />
       </div>
     </div>
