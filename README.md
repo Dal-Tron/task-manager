@@ -1,36 +1,128 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Project Documentation
 
-## Getting Started
+## Overview
 
-First, run the development server:
+This project is a task management application built with Next.js, TypeScript, and Tailwind CSS. The application allows users to create, view, and manage tasks and subtasks. The structure leverages Next.js's App Router for dynamic routing and features reusable components to keep the codebase maintainable.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Key Features
+
+- **Task Management**: Create, view, update, and delete tasks and subtasks.
+- **Dynamic Routing**: Uses Next.js's App Router to dynamically load task details based on the URL.
+- **Responsive Design**: Built with Tailwind CSS, ensuring a mobile-first, responsive design.
+- **Skeleton Loaders**: Skeleton screens are used to enhance the user experience during data loading.
+
+## Project Structure
+
+```
+/app
+  /dashboard
+    /[task_id]
+      page.tsx
+    layout.tsx
+    page.tsx
+/components
+  /base
+    HorizontalLine.tsx
+    SkeletonTaskCard.tsx
+  /feature
+    /task-card
+      TaskCard.tsx
+    /task-input
+      TaskInput.tsx
+    /dashboard-content
+      ConsolidatedComponent.tsx
+      CreateTaskCard.tsx
+      SubtaskSection.tsx
+      TaskList.tsx
+/hooks
+  useTaskManager.ts
+/services
+  TaskService.ts
+/types
+  task.ts
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Components
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. **ConsolidatedComponent.tsx**
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+   - Combines the logic of both the dashboard and task details pages.
+   - If a `task_id` is provided, it auto-populates the form fields; otherwise, it displays a task creation interface.
 
-## Learn More
+2. **CreateTaskCard.tsx**
 
-To learn more about Next.js, take a look at the following resources:
+   - A card component that navigates the user to the `/dashboard` page when clicked, using Next.js's `useRouter` hook.
+   - Displays a plus icon and a prompt to create a new task.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. **TaskList.tsx**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+   - A reusable component that displays a list of tasks.
+   - Includes a `CreateTaskCard` and handles loading states with skeleton loaders.
+   - Accepts `tasks`, `loadingTasks`, and `onDelete` as props.
 
-## Deploy on Vercel
+4. **TaskInput.tsx**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   - A form component for creating or editing tasks.
+   - Handles input and description changes, task saving, and subtask addition.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+5. **SubtaskSection.tsx**
+
+   - Manages and displays subtasks for a given task.
+   - Handles loading states and displays skeleton loaders during data fetching.
+
+6. **SkeletonTaskCard.tsx**
+   - A skeleton loader component that mimics the layout of a task card to maintain UI consistency during data loading.
+
+### Hooks
+
+1. **useTaskManager.ts**
+   - Custom hook that manages the state and logic for task and subtask operations.
+   - Accepts an optional initial task for auto-populating form fields.
+   - Handles task creation, deletion, subtask fetching, and input management.
+
+### Services
+
+1. **TaskService.ts**
+   - Service layer for interacting with the task data stored in the database.
+   - Provides methods like `createTask`, `getTasks`, `getTaskById`, `updateTask`, and `deleteTask`.
+
+### Types
+
+1. **task.ts**
+   - Defines the `ITask` interface, representing the structure of a task object.
+   - Ensures type safety throughout the application.
+
+## Navigation and Dynamic Routing
+
+- **Dashboard Page (`/dashboard`)**:
+
+  - Displays all tasks and allows users to create new tasks or navigate to existing ones.
+  - The `TaskList` component is used to display tasks, with a `CreateTaskCard` at the top.
+
+- **Task Details Page (`/dashboard/[task_id]`)**:
+  - Displays the details of a specific task and auto-populates the form fields for editing.
+  - Uses the `useTaskManager` hook to manage the task's data and state.
+  - Implements a skeleton loader to prevent layout shifts during data fetching.
+
+## Handling Layout Shifts
+
+- **Skeleton Loaders**:
+  - Used in both task lists and task details to ensure that the UI remains consistent during data loading.
+  - Prevents the page from collapsing and expanding while data is being fetched.
+
+## Reusable Components and DRY Principles
+
+- **TaskList Component**:
+
+  - Abstracts the logic for displaying tasks and handles both loading and deletion operations.
+  - Ensures consistency across different parts of the application that display lists of tasks.
+
+- **ConsolidatedComponent**:
+  - Centralizes the logic for task input and details into a single component, making it easy to manage and maintain.
+  - Reduces code duplication by handling both the creation of new tasks and the editing of existing ones within the same component.
+
+## Development Notes
+
+- Ensure that all components follow the same styling guidelines to maintain UI consistency.
+- The `useTaskManager` hook is the primary state manager for tasks and subtasks; any new task-related features should integrate with this hook.
+- When adding new pages or components, consider how they can be abstracted to be reusable and consistent with existing components.
