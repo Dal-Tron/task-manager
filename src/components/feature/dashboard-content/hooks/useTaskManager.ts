@@ -1,17 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import TaskService from '@/services/tasks';
 import { ITask } from '@/types/task';
 
-export const useTaskManager = (initialTask?: ITask | null) => {
-  const [inputValue, setInputValue] = useState(initialTask?.title || '');
-  const [descriptionValue, setDescriptionValue] = useState(
-    initialTask?.description || ''
-  );
-  const [subtasks, setSubtasks] = useState<ITask[]>([]);
-  const [loadingSubtasks, setLoadingSubtasks] = useState(false);
+export function useTaskManager(initialTask?: ITask | null) {
+  const [inputValue, setInputValue] = useState('');
+  const [descriptionValue, setDescriptionValue] = useState('');
   const [tasks, setTasks] = useState<ITask[]>([]);
   const [loadingTasks, setLoadingTasks] = useState(true);
+  const [loadingSubtasks, setLoadingSubtasks] = useState(false);
   const [showSubtasks, setShowSubtasks] = useState(false);
 
   useEffect(() => {
@@ -21,17 +18,37 @@ export const useTaskManager = (initialTask?: ITask | null) => {
     }
   }, [initialTask]);
 
-  const handleSaveTask = async () => {
-    const task = await TaskService.createTask({
-      title: inputValue,
-      description: descriptionValue,
-      start_date: new Date().toISOString(),
-      due_date: new Date().toISOString(),
-      completion: 0,
-    });
+  useEffect(() => {
+    const fetchTasks = async () => {
+      setLoadingTasks(true);
+      const fetchedTasks = await TaskService.getTasks();
+      setTasks(fetchedTasks || []);
+      setLoadingTasks(false);
+    };
 
-    if (task) {
-      setTasks((prevTasks) => [...prevTasks, task]);
+    fetchTasks();
+  }, []);
+
+  const handleSaveTask = async () => {
+    if (initialTask && initialTask.id) {
+      // Update the existing task
+      await TaskService.updateTask(initialTask.id, {
+        title: inputValue,
+        description: descriptionValue,
+      });
+    } else {
+      // Create a new task
+      const newTask = await TaskService.createTask({
+        title: inputValue,
+        description: descriptionValue,
+        start_date: new Date().toISOString(),
+        due_date: new Date().toISOString(),
+        completion: 0,
+      });
+
+      if (newTask) {
+        setTasks((prevTasks) => [newTask, ...prevTasks]);
+      }
     }
   };
 
@@ -46,54 +63,19 @@ export const useTaskManager = (initialTask?: ITask | null) => {
 
   const handleGetSubtasks = async () => {
     setShowSubtasks(true);
-    setLoadingSubtasks(true);
-    setSubtasks([]);
-
-    try {
-      const response = await fetch('/api/generate-subtasks', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          title: inputValue,
-          description: descriptionValue,
-        }),
-      });
-
-      const data = await response.json();
-      setSubtasks(data.subtasks);
-    } catch (error) {
-      console.error('Error saving task or generating subtasks:', error);
-    } finally {
-      setLoadingSubtasks(false);
-    }
   };
-
-  useEffect(() => {
-    const fetchTasks = async () => {
-      setLoadingTasks(true);
-      const fetchedTasks = await TaskService.getTasks();
-      setTasks(fetchedTasks || []);
-      setLoadingTasks(false);
-    };
-
-    fetchTasks();
-  }, []);
 
   return {
     inputValue,
     setInputValue,
     descriptionValue,
     setDescriptionValue,
-    subtasks,
-    setSubtasks,
-    loadingSubtasks,
     tasks,
     loadingTasks,
+    loadingSubtasks,
     showSubtasks,
     handleSaveTask,
     handleDeleteTask,
     handleGetSubtasks,
   };
-};
+}
