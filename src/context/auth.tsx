@@ -1,4 +1,5 @@
 import { Session, User } from '@supabase/supabase-js';
+import { useRouter } from 'next/navigation';
 import { createContext, useContext, useEffect, useState } from 'react';
 
 import AuthService from '@/services/auth';
@@ -24,6 +25,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     const supabase = createClient();
@@ -52,12 +54,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     return () => {
       authListener.subscription.unsubscribe();
     };
-  }, []);
+  }, [router]);
 
   const signOut = async () => {
     await AuthService.signOut();
     setUser(null);
     setSession(null);
+    router.push('/');
   };
 
   return (
