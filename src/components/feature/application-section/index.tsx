@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 
 import { HorizontalLine } from '@/components/base/horizontal-line';
 import { SkeletonTaskCard } from '@/components/base/skeleton/SkeletonTaskCard';
-import { CreateSubtaskCard } from '@/components/feature/create-subtask';
+import { CreateTaskCard } from '@/components/feature/create-task';
 import { TaskCard } from '@/components/feature/task-card';
 import { TaskInput } from '@/components/feature/task-input';
 import { mockTasks } from '@/mocks/mockTasks';
@@ -83,13 +83,14 @@ export const ApplicationSection = () => {
             onDescriptionChange={(e) => setDescriptionValue(e.target.value)}
             onSaveTask={() => {}}
             disabled={true}
+            onAddSubtask={() => {}}
           />
         </div>
 
         <HorizontalLine text="Unlock AI-Powered Tasks" pulse={true} />
 
         <div className="mx-auto mt-8 grid w-full max-w-full grid-cols-1 gap-x-4 gap-y-8 sm:px-6 md:grid-cols-2 lg:grid-cols-3 lg:px-0">
-          <CreateSubtaskCard />
+          <CreateTaskCard />
           {!showRealTasks ? (
             <>
               <SkeletonTaskCard />
