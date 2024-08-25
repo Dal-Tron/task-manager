@@ -61,7 +61,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
             <div className="py-6">
               <button
                 onClick={handleSignInOrOut}
-                className="rounded-lg py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                className="w-full block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
               >
                 {user ? 'Sign Out' : 'Sign In'}
               </button>

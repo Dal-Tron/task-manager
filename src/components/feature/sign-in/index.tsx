@@ -31,8 +31,6 @@ export const SignIn: React.FC = () => {
       }
     } catch (error) {
       console.error('Authentication error:', error);
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -43,7 +41,7 @@ export const SignIn: React.FC = () => {
   return (
     <div className="relative flex min-h-full flex-1 flex-col justify-center px-6 lg:px-8">
       {isLoading && (
-        <div className="absolute inset-0 bg-white bg-opacity-70 flex items-center justify-center z-10">
+        <div className="absolute inset-0 flex items-center justify-center z-10">
           <FaSpinner className="animate-spin h-12 w-12 text-gray-600" />
         </div>
       )}
