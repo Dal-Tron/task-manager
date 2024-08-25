@@ -8,6 +8,7 @@ interface TaskInputProps {
   onInputChange: (value: string) => void;
   onDescriptionChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   onSaveTask: () => void;
+  onAddSubtask: () => void;
   disabled?: boolean;
 }
 
@@ -17,6 +18,7 @@ export const TaskInput: React.FC<TaskInputProps> = ({
   onInputChange,
   onDescriptionChange,
   onSaveTask,
+  onAddSubtask,
   disabled = false,
 }) => {
   const isSaveDisabled = disabled || inputValue.length < 3;
@@ -37,12 +39,20 @@ export const TaskInput: React.FC<TaskInputProps> = ({
         className="mt-2 text-lg leading-8 text-gray-600 w-full"
         disabled={disabled}
       />
-      <Button
-        onClick={onSaveTask}
-        className="mt-6 bg-blue-500 text-white font-semibold py-2 px-4 rounded-md"
-        disabled={isSaveDisabled}
-        text="Save Task"
-      />
+      <div className="mt-6 flex justify-end">
+        <Button
+          onClick={onAddSubtask}
+          className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-md"
+          disabled={isSaveDisabled}
+          text="Add Subtask"
+        />
+        <Button
+          onClick={onSaveTask}
+          className="ml-2 bg-green-500 text-white font-semibold py-2 px-4 rounded-md"
+          disabled={isSaveDisabled}
+          text="Save Task"
+        />
+      </div>
     </div>
   );
 };
