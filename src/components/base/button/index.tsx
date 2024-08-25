@@ -21,7 +21,7 @@ export const Button: React.FC<ButtonProps> = ({
         'py-2 px-4 rounded-md font-semibold',
         {
           'bg-blue-500 text-white hover:bg-blue-600': !disabled,
-          'bg-gray-300 text-gray-500 cursor-not-allowed': disabled,
+          '!bg-gray-300 text-gray-500 cursor-not-allowed': disabled,
         },
         className
       )}
