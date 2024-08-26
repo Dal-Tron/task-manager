@@ -56,6 +56,8 @@ export function useTaskManager(initialTask?: ITask | null) {
 
       if (newTask) {
         setTasks((prevTasks) => [newTask, ...prevTasks]);
+        setInputValue('');
+        setDescriptionValue('');
       }
     }
   };

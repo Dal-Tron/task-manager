@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
 import { Button } from '@/components/base/button';
-import { Input } from '@/components/base/input';
 import { ResizableTextarea } from '@/components/base/resize-textarea';
 import { TaskSuggestionsModal } from '@/components/feature/task-suggestions-modal';
 import { ITask } from '@/types/task';

@@ -9,11 +9,13 @@ export async function POST(req: NextRequest) {
 
     // Attempt to generate tasks from the AI API
     let tasks = [];
+    /*
     try {
       tasks = await generateTasksFromAI(title, description);
     } catch (error) {
       console.error('Error calling AI API:', error);
     }
+    */
 
     // If no tasks were returned by the AI API, use mock tasks
     if (tasks.length === 0) {
@@ -31,6 +33,7 @@ export async function POST(req: NextRequest) {
   }
 }
 
+/*
 async function generateTasksFromAI(title: string, description: string) {
   const apiKey = process.env.AI_API_KEY!;
   const apiUrl = process.env.AI_API_URL!;
@@ -100,3 +103,4 @@ async function generateTasksFromAI(title: string, description: string) {
     throw new Error('Failed to generate tasks.');
   }
 }
+*/
