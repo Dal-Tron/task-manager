@@ -4,8 +4,8 @@ import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
 
 import { SkeletonTaskCard } from '@/components/base/skeleton';
-import { CreateTaskCard } from '@/components/feature/create-task-card';
 import { TaskCard } from '@/components/feature/task-card';
+import { CreateTaskCard } from '@/components/feature/task-card-create';
 import { ITask } from '@/types/task';
 
 interface TaskListProps {
