@@ -8,6 +8,7 @@ interface ResizableTextareaProps {
   maxLength?: number;
   className?: string;
   disabled?: boolean;
+  showCount?: boolean;
 }
 
 export const ResizableTextarea: FC<ResizableTextareaProps> = ({
@@ -17,6 +18,7 @@ export const ResizableTextarea: FC<ResizableTextareaProps> = ({
   maxLength = 300,
   className = '',
   disabled = false,
+  showCount = true,
 }) => {
   const [charCount, setCharCount] = useState(value.length);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -48,9 +50,11 @@ export const ResizableTextarea: FC<ResizableTextareaProps> = ({
         rows={1}
         style={{ height: 'auto', minHeight: '2.5rem' }}
       />
-      <div className="text-right text-sm text-gray-500">
-        {charCount}/{maxLength}
-      </div>
+      {showCount && (
+        <div className="text-right text-sm text-gray-500">
+          {charCount}/{maxLength}
+        </div>
+      )}
     </div>
   );
 };
