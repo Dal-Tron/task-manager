@@ -1,4 +1,4 @@
-import { TrashIcon, PlusIcon } from '@heroicons/react/24/outline';
+import { TrashIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import { useState } from 'react';
 
@@ -16,7 +16,7 @@ interface TaskCardProps {
   demo?: boolean;
   onDelete?: (id: number) => void;
   onClick?: () => void;
-  hideActions?: boolean;
+  isInModal?: boolean;
 }
 
 export const TaskCard: React.FC<TaskCardProps> = ({
@@ -31,7 +31,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({
   className,
   onDelete,
   onClick,
-  hideActions = false,
+  isInModal = false, // Default to false, so it's considered to be in the dashboard
 }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -55,14 +55,6 @@ export const TaskCard: React.FC<TaskCardProps> = ({
         )}
         onClick={onClick}
       >
-        {demo && (
-          <div className="absolute top-4 right-4">
-            <div className="flex items-center justify-center w-10 h-10 bg-blue-100 rounded-full">
-              <PlusIcon className="h-6 w-6 text-blue-500" aria-hidden="true" />
-            </div>
-          </div>
-        )}
-
         <div className="w-full">
           <div className="flex items-center space-x-2 text-xs text-gray-500 mb-3">
             <time dateTime={start_date}>
@@ -83,7 +75,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({
             </p>
           </div>
 
-          {!hideActions && (
+          {!isInModal && (
             <div className="mt-4 flex items-center justify-between text-sm text-gray-500">
               <span>
                 Last Updated:{' '}
@@ -93,7 +85,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({
             </div>
           )}
 
-          {!demo && !hideActions && (
+          {!isInModal && !demo && (
             <div
               className="mt-4 flex justify-end w-full"
               onClick={(e) => e.stopPropagation()}
@@ -102,6 +94,18 @@ export const TaskCard: React.FC<TaskCardProps> = ({
                 className="h-5 w-5 text-gray-400 cursor-pointer hover:text-red-500"
                 aria-hidden="true"
                 onClick={handleDeleteClick}
+              />
+            </div>
+          )}
+
+          {isInModal && !demo && (
+            <div
+              className="mt-4 flex justify-end w-full"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <PlusCircleIcon
+                className="h-5 w-5 text-blue-500 cursor-pointer hover:text-blue-700"
+                aria-hidden="true"
               />
             </div>
           )}
