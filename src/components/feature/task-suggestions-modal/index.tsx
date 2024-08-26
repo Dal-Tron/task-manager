@@ -24,7 +24,9 @@ export const TaskSuggestionsModal: React.FC<TaskSuggestionsModalProps> = ({
   loading,
   onTaskCreate,
 }) => {
-  const [localSuggestions, setLocalSuggestions] = useState(suggestions);
+  const [localSuggestions, setLocalSuggestions] = useState<ITask[]>(
+    suggestions || []
+  );
   const [isLoading, setIsLoading] = useState(loading);
   const [selectedTask, setSelectedTask] = useState<ITask | null>(null);
   const [isSaving, setIsSaving] = useState(false);
@@ -32,7 +34,7 @@ export const TaskSuggestionsModal: React.FC<TaskSuggestionsModalProps> = ({
   const fetchSuggestions = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch('/api/generate-subtasks', {
+      const response = await fetch('/api/generate-tasks', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -44,7 +46,8 @@ export const TaskSuggestionsModal: React.FC<TaskSuggestionsModalProps> = ({
       });
 
       const data = await response.json();
-      setLocalSuggestions(data.subtasks);
+
+      setLocalSuggestions(data.tasks);
     } catch (error) {
       console.error('Error fetching suggestions:', error);
     } finally {
@@ -90,12 +93,26 @@ export const TaskSuggestionsModal: React.FC<TaskSuggestionsModalProps> = ({
     }
   };
 
+  const handleCloseModal = () => {
+    closeModal();
+    setTimeout(() => {
+      setLocalSuggestions([]);
+      setIsLoading(false);
+      setSelectedTask(null);
+    }, 300); // Delay to allow the modal to close before clearing the state
+  };
+
   return (
-    <Modal isOpen={isOpen} closeModal={closeModal} title="Suggested Tasks" wide>
+    <Modal
+      isOpen={isOpen}
+      closeModal={handleCloseModal}
+      title="Suggested Tasks"
+      wide
+    >
       <div className="absolute top-4 right-4">
         <XMarkIcon
           className="h-6 w-6 text-gray-500 cursor-pointer hover:text-gray-700"
-          onClick={closeModal}
+          onClick={handleCloseModal}
         />
       </div>
 

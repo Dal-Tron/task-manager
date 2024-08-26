@@ -37,7 +37,7 @@ export const TaskInput: React.FC<TaskInputProps> = ({
     setIsModalOpen(true);
     setSuggestionsLoading(true);
 
-    const response = await fetch('/api/generate-subtasks', {
+    const response = await fetch('/api/generate-tasks', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -78,7 +78,7 @@ export const TaskInput: React.FC<TaskInputProps> = ({
           onClick={handleSuggestTask}
           className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-md"
           disabled={isSaveDisabled}
-          text="Suggest Task"
+          text="Suggest Tasks"
         />
         <Button
           onClick={onSaveTask}

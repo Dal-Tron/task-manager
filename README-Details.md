@@ -98,7 +98,7 @@ const handleSaveTask = async () => {
   setSubtasks([]);
 
   try {
-    const response = await fetch('/api/generate-subtasks', {
+    const response = await fetch('/api/generate-tasks', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
