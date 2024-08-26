@@ -83,6 +83,7 @@ export const ApplicationSection = () => {
             onDescriptionChange={(e) => setDescriptionValue(e.target.value)}
             onSaveTask={() => {}}
             disabled={true}
+            onTaskCreate={() => {}}
           />
         </div>
 
