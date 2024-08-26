@@ -36,11 +36,15 @@ export default function DashboardContent({ params }: DashboardContentProps) {
     descriptionValue,
     setDescriptionValue,
     tasks,
+    setTasks,
     loadingTasks,
     handleSaveTask,
     handleDeleteTask,
-    handleGetSubtasks,
   } = useTaskManager(task);
+
+  const handleTaskCreate = (newTask: ITask) => {
+    setTasks((prevTasks) => [newTask, ...prevTasks]);
+  };
 
   return (
     <div className="pb-14 sm:py-20">
@@ -52,6 +56,7 @@ export default function DashboardContent({ params }: DashboardContentProps) {
             onInputChange={setInputValue}
             onDescriptionChange={(e) => setDescriptionValue(e.target.value)}
             onSaveTask={handleSaveTask}
+            onTaskCreate={handleTaskCreate}
             isEditing={!!params?.task_id}
           />
         </div>

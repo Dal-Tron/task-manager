@@ -1,4 +1,4 @@
-import { XMarkIcon } from '@heroicons/react/24/outline';
+import { PlusCircleIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import { FaSpinner } from 'react-icons/fa';
@@ -14,6 +14,7 @@ interface TaskSuggestionsModalProps {
   closeModal: () => void;
   suggestions: ITask[];
   loading: boolean;
+  onTaskCreate: (task: ITask) => void;
 }
 
 export const TaskSuggestionsModal: React.FC<TaskSuggestionsModalProps> = ({
@@ -21,6 +22,7 @@ export const TaskSuggestionsModal: React.FC<TaskSuggestionsModalProps> = ({
   closeModal,
   suggestions,
   loading,
+  onTaskCreate,
 }) => {
   const [localSuggestions, setLocalSuggestions] = useState(suggestions);
   const [isLoading, setIsLoading] = useState(loading);
@@ -78,6 +80,7 @@ export const TaskSuggestionsModal: React.FC<TaskSuggestionsModalProps> = ({
         setLocalSuggestions((prevSuggestions) =>
           prevSuggestions.filter((t) => t.id !== selectedTask.id)
         );
+        onTaskCreate(newTask);
         setSelectedTask(null);
       }
     } catch (error) {
@@ -134,7 +137,7 @@ export const TaskSuggestionsModal: React.FC<TaskSuggestionsModalProps> = ({
         <Dialog
           open={!!selectedTask}
           onClose={() => setSelectedTask(null)}
-          icon={FaSpinner}
+          icon={PlusCircleIcon}
           title="Create Task"
           description="Would you like to create a new task with the selected details?"
           actionText="Create"

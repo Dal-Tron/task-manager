@@ -12,6 +12,7 @@ interface TaskInputProps {
   onInputChange: (value: string) => void;
   onDescriptionChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   onSaveTask: () => void;
+  onTaskCreate: (task: ITask) => void;
   disabled?: boolean;
   isEditing?: boolean;
 }
@@ -22,6 +23,7 @@ export const TaskInput: React.FC<TaskInputProps> = ({
   onInputChange,
   onDescriptionChange,
   onSaveTask,
+  onTaskCreate,
   disabled = false,
   isEditing = false,
 }) => {
@@ -31,7 +33,8 @@ export const TaskInput: React.FC<TaskInputProps> = ({
 
   const isSaveDisabled = disabled || inputValue.length < 3;
 
-  const fetchSuggestions = async () => {
+  const handleSuggestTask = async () => {
+    setIsModalOpen(true);
     setSuggestionsLoading(true);
 
     const response = await fetch('/api/generate-subtasks', {
@@ -50,9 +53,8 @@ export const TaskInput: React.FC<TaskInputProps> = ({
     setSuggestionsLoading(false);
   };
 
-  const handleSuggestTask = () => {
-    setIsModalOpen(true);
-    fetchSuggestions();
+  const handleCreateTask = (newTask: ITask) => {
+    onTaskCreate(newTask);
   };
 
   return (
@@ -91,6 +93,7 @@ export const TaskInput: React.FC<TaskInputProps> = ({
         closeModal={() => setIsModalOpen(false)}
         suggestions={suggestions}
         loading={suggestionsLoading}
+        onTaskCreate={handleCreateTask}
       />
     </div>
   );

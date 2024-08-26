@@ -1,4 +1,4 @@
-import { TrashIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
+import { TrashIcon, PlusIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import { useState } from 'react';
 
@@ -31,7 +31,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({
   className,
   onDelete,
   onClick,
-  isInModal = false, // Default to false, so it's considered to be in the dashboard
+  isInModal = false,
 }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -45,17 +45,20 @@ export const TaskCard: React.FC<TaskCardProps> = ({
     setIsDialogOpen(false);
   };
 
+  const truncatedDescription =
+    description.length > 50 ? `${description.slice(0, 50)}...` : description;
+
   return (
     <>
       <div
         key={id}
         className={clsx(
-          'relative bg-white p-6 rounded-md shadow-md max-w-xl w-full flex flex-col items-start justify-between cursor-pointer border border-transparent hover:border-blue-500 transition-colors duration-200',
+          'relative bg-white p-6 rounded-md shadow-md max-w-xl w-full flex flex-col justify-between cursor-pointer border border-transparent hover:border-blue-500 transition-colors duration-200',
           className
         )}
         onClick={onClick}
       >
-        <div className="w-full">
+        <div className="flex-1 w-full">
           <div className="flex items-center space-x-2 text-xs text-gray-500 mb-3">
             <time dateTime={start_date}>
               Start:{' '}
@@ -70,8 +73,8 @@ export const TaskCard: React.FC<TaskCardProps> = ({
             <h3 className="text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
               {title}
             </h3>
-            <p className="mt-2 line-clamp-3 text-sm leading-6 text-gray-600">
-              {description}
+            <p className="mt-2 text-sm leading-6 text-gray-600">
+              {truncatedDescription}
             </p>
           </div>
 
@@ -84,26 +87,20 @@ export const TaskCard: React.FC<TaskCardProps> = ({
               <span>Completion: {completion}%</span>
             </div>
           )}
+        </div>
 
+        <div className="flex justify-end w-full mt-2">
           {!isInModal && !demo && (
-            <div
-              className="mt-4 flex justify-end w-full"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <TrashIcon
-                className="h-5 w-5 text-gray-400 cursor-pointer hover:text-red-500"
-                aria-hidden="true"
-                onClick={handleDeleteClick}
-              />
-            </div>
+            <TrashIcon
+              className="h-5 w-5 text-gray-400 cursor-pointer hover:text-red-500"
+              aria-hidden="true"
+              onClick={handleDeleteClick}
+            />
           )}
 
           {isInModal && !demo && (
-            <div
-              className="mt-4 flex justify-end w-full"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <PlusCircleIcon
+            <div className="flex items-center justify-center size-8 bg-blue-100 rounded-full">
+              <PlusIcon
                 className="h-5 w-5 text-blue-500 cursor-pointer hover:text-blue-700"
                 aria-hidden="true"
               />

@@ -1,13 +1,10 @@
 'use client';
 
 import { PlusIcon } from '@heroicons/react/24/outline';
-import { useRouter } from 'next/navigation';
 
 export const CreateTaskCard: React.FC = () => {
-  const router = useRouter();
-
   const handleCreateTaskClick = () => {
-    router.push('/dashboard');
+    window.location.href = '/dashboard';
   };
 
   return (

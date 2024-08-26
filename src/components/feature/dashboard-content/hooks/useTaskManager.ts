@@ -74,6 +74,7 @@ export function useTaskManager(initialTask?: ITask | null) {
   };
 
   return {
+    setTasks,
     inputValue,
     setInputValue,
     descriptionValue,
