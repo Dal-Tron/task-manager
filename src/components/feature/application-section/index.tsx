@@ -5,8 +5,8 @@ import { useEffect, useState } from 'react';
 
 import { HorizontalLine } from '@/components/base/horizontal-line';
 import { SkeletonTaskCard } from '@/components/base/skeleton';
-import { CreateTaskCard } from '@/components/feature/create-task-card';
 import { TaskCard } from '@/components/feature/task-card';
+import { CreateTaskCard } from '@/components/feature/task-card-create';
 import { TaskInput } from '@/components/feature/task-input';
 import { mockTasks } from '@/mocks/mockTasks';
 
@@ -83,7 +83,6 @@ export const ApplicationSection = () => {
             onDescriptionChange={(e) => setDescriptionValue(e.target.value)}
             onSaveTask={() => {}}
             disabled={true}
-            onAddSubtask={() => {}}
           />
         </div>
 

@@ -52,7 +52,6 @@ export default function DashboardContent({ params }: DashboardContentProps) {
             onInputChange={setInputValue}
             onDescriptionChange={(e) => setDescriptionValue(e.target.value)}
             onSaveTask={handleSaveTask}
-            onAddSubtask={handleGetSubtasks}
             isEditing={!!params?.task_id}
           />
         </div>
